@@ -1,1 +1,0 @@
-../../../MarqueeLabel/Sources/ObjC/MarqueeLabel.h
