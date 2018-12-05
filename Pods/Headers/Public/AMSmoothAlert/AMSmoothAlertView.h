@@ -1,0 +1,1 @@
+../../../AMSmoothAlert/AMSmoothAlert/AMSmoothAlertView.h
