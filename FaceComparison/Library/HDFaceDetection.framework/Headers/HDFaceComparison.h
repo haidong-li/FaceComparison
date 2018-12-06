@@ -22,14 +22,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSDictionary *)findMostSimilarityFace:(NSArray *)feature inDataSource:(NSArray *)dataSource;
 
-/**
- 人脸对齐
-
- @param pic 源图片
- @param landmarks 5 个关键点
- @return 对齐后的人脸图片
- */
-- (UIImage *)getAlignFace:(UIImage *)pic landmarks:(NSArray *)landmarks;
 
 /**
  获取人脸特征
@@ -41,14 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray *)getFaceFeaturesWithOriginalPic:(UIImage *)pic landmarks:(NSArray *)landmarks;
 
 
-/**
- 1:1 人脸对比
-
- @param firstFaceFeatures 第一个人脸特征
- @param secondFaceFeatures 第二个人脸特征
- @return 分数
- */
-- (CGFloat)detectionSimilarityWithFirstFeatures:(NSArray *)firstFaceFeatures second:(NSArray *)secondFaceFeatures;
 
 NS_ASSUME_NONNULL_END
 @end
