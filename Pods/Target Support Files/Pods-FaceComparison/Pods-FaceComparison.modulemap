@@ -1,0 +1,6 @@
+module Pods_FaceComparison {
+  umbrella header "Pods-FaceComparison-umbrella.h"
+
+  export *
+  module * { export * }
+}
