@@ -1,6 +1,6 @@
 # FaceComparison
 This project include face-deteciton face-landmarks  face-align  and face-recgnition; It is a  relatively complete project！
-
+# framework 先不公开了
 # Step 1. Star please 🌟🌟🌟🌟🌟
 
 ### ！！！I deleted opencv ,it is huge ，please download [openCV](https://opencv.org/releases.html)
@@ -9,7 +9,7 @@ This project include face-deteciton face-landmarks  face-align  and face-recgnit
 ![image](https://github.com/HuiFeiDeDaMaHou/FaceComparison/blob/master/Images/2.png)
 ![image](https://github.com/HuiFeiDeDaMaHou/FaceComparison/blob/master/Images/3.png)
 
-framework 先不公开了
+
 
 # 人脸识别流程
 - 1.发现人脸
