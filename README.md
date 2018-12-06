@@ -4,6 +4,7 @@ This project include face-deteciton face-landmarks  face-align  and face-recgnit
 # Step 1. Star please 🌟🌟🌟🌟🌟
 
 ### ！！！I deleted opencv ,it is huge ，please download [openCV](https://opencv.org/releases.html)
+### the project for iPad
 
 ![image](https://github.com/HuiFeiDeDaMaHou/FaceComparison/blob/master/Images/2.png)
 ![image](https://github.com/HuiFeiDeDaMaHou/FaceComparison/blob/master/Images/3.png)
