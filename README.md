@@ -9,6 +9,8 @@ This project include face-deteciton face-landmarks  face-align  and face-recgnit
 ![image](https://github.com/HuiFeiDeDaMaHou/FaceComparison/blob/master/Images/2.png)
 ![image](https://github.com/HuiFeiDeDaMaHou/FaceComparison/blob/master/Images/3.png)
 
+framework 先不公开了
+
 # 人脸识别流程
 - 1.发现人脸
 - 2.关键点检测
