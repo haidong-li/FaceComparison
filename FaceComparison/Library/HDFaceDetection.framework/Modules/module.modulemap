@@ -1,0 +1,6 @@
+framework module HDFaceDetection {
+  umbrella header "HDFaceDetection.h"
+
+  export *
+  module * { export * }
+}
