@@ -1,6 +1,6 @@
 # FaceComparison
 This project include face-deteciton face-landmarks  face-align  and face-recgnition; It is a  relatively complete project！
-# framework 先不公开了
+~~# framework 先不公开了~~  目前限制framewok使用24 小时，大佬们简单的玩玩就好
 # Step 1. Star please 🌟🌟🌟🌟🌟
 
 ### ！！！I deleted opencv ,it is huge ，please download [openCV](https://opencv.org/releases.html)
