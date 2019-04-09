@@ -100,7 +100,7 @@
         CGContextDrawPath(context, kCGPathFillStroke);//绘画路径
 //        self.layer.cornerRadius = 7;
         CGFloat cornerW = 50;
-        CGFloat lineW = 6;
+        CGFloat lineW = face.size.width / 8;
         CGFloat lineSpace = lineW / 2;
         //left top
         CGContextMoveToPoint(context, face.origin.x - lineSpace, face.origin.y+cornerW - lineSpace);
