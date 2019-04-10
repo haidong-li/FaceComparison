@@ -31,8 +31,12 @@ This project include face-deteciton face-landmarks  face-align  and face-recgnit
 
 ## 2019年4月9日 更新
 > 1.增加多角度信息采集信息，多角度人脸比对
+
 > 2.增加多人脸同时识别
+
 > 3.人员信息框的UI
+
 #### 存在问题 
 > 1.脸部姿态计算很粗糙，由于关键点个数不够，没法计算
+
 > 2.由于多角度，姿态不准等原因，有误识概率
