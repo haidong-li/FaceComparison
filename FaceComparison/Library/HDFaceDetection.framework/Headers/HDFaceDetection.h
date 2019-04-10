@@ -19,7 +19,7 @@
  @return 2个长度  0->关键点  1->人脸框
  */
 - (NSArray *)detectMaxFace:(UIImage *)image;
-
+- (NSArray *)detectFace:(UIImage *)image;
 /**
  检测是否是正脸
 

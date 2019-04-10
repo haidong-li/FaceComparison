@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-
 @interface HomeCameraViewController : UIViewController
 
 @end

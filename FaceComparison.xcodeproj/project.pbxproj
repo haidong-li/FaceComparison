@@ -11,6 +11,18 @@
 		42B6468A46080D4012AB5FE6 /* libPods-FaceComparison.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FEE5F4FB200BAE5C33283D1 /* libPods-FaceComparison.a */; };
 		7D06194321B8E1C1009167DA /* HDFaceDetection.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D06194221B8E1C1009167DA /* HDFaceDetection.framework */; };
 		7D06194621B8F861009167DA /* CALayer+XibBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D06194521B8F861009167DA /* CALayer+XibBase.m */; };
+		7D206A2121C9E15B00B631F6 /* FacePostTool.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7D206A2021C9E15B00B631F6 /* FacePostTool.mm */; };
+		7D206A2421C9F0F900B631F6 /* Quaterniond.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D206A2321C9F0F900B631F6 /* Quaterniond.m */; };
+		7D206A2621CA1B6400B631F6 /* headPose.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 7D206A2521CA1B6300B631F6 /* headPose.jpg */; };
+		7D206A2821CA1DDC00B631F6 /* 1.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D206A2721CA1DDC00B631F6 /* 1.png */; };
+		7D33950221D1CF26007CF124 /* UserInfoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D33950021D1CF26007CF124 /* UserInfoCollectionViewCell.m */; };
+		7D33950321D1CF26007CF124 /* UserInfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D33950121D1CF26007CF124 /* UserInfoCollectionViewCell.xib */; };
+		7D3798FA21D4C508009C80DD /* ExcelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3798F921D4C508009C80DD /* ExcelManager.m */; };
+		7DD41A7E21C738C9007BC1D0 /* FacialMaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD41A7D21C738C9007BC1D0 /* FacialMaskView.m */; };
+		7DD41A8121C7747B007BC1D0 /* FacePostionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD41A8021C7747B007BC1D0 /* FacePostionView.m */; };
+		7DFE0B2321D0B8C4006582CE /* UserInfoListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFE0B2221D0B8C4006582CE /* UserInfoListView.m */; };
+		7DFE0B2621D0BB5B006582CE /* CircularCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFE0B2521D0BB5B006582CE /* CircularCollectionViewLayout.m */; };
+		7DFE0B2921D0FFDF006582CE /* PageCardFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFE0B2821D0FFDF006582CE /* PageCardFlowLayout.m */; };
 		860E760521A6B88A00FE834B /* WSDatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 860E760121A6B88A00FE834B /* WSDatePickerView.xib */; };
 		860E760621A6B88A00FE834B /* WSDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 860E760221A6B88A00FE834B /* WSDatePickerView.m */; };
 		860E760721A6B88A00FE834B /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 860E760321A6B88A00FE834B /* NSDate+Extension.m */; };
@@ -84,6 +96,27 @@
 		7D06194221B8E1C1009167DA /* HDFaceDetection.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HDFaceDetection.framework; sourceTree = "<group>"; };
 		7D06194421B8F861009167DA /* CALayer+XibBase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CALayer+XibBase.h"; sourceTree = "<group>"; };
 		7D06194521B8F861009167DA /* CALayer+XibBase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CALayer+XibBase.m"; sourceTree = "<group>"; };
+		7D206A1F21C9E15B00B631F6 /* FacePostTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FacePostTool.h; sourceTree = "<group>"; };
+		7D206A2021C9E15B00B631F6 /* FacePostTool.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FacePostTool.mm; sourceTree = "<group>"; };
+		7D206A2221C9F0F900B631F6 /* Quaterniond.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quaterniond.h; sourceTree = "<group>"; };
+		7D206A2321C9F0F900B631F6 /* Quaterniond.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Quaterniond.m; sourceTree = "<group>"; };
+		7D206A2521CA1B6300B631F6 /* headPose.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = headPose.jpg; sourceTree = "<group>"; };
+		7D206A2721CA1DDC00B631F6 /* 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1.png; sourceTree = "<group>"; };
+		7D3394FF21D1CF26007CF124 /* UserInfoCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoCollectionViewCell.h; sourceTree = "<group>"; };
+		7D33950021D1CF26007CF124 /* UserInfoCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoCollectionViewCell.m; sourceTree = "<group>"; };
+		7D33950121D1CF26007CF124 /* UserInfoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserInfoCollectionViewCell.xib; sourceTree = "<group>"; };
+		7D3798F821D4C508009C80DD /* ExcelManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExcelManager.h; sourceTree = "<group>"; };
+		7D3798F921D4C508009C80DD /* ExcelManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExcelManager.m; sourceTree = "<group>"; };
+		7DD41A7C21C738C9007BC1D0 /* FacialMaskView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FacialMaskView.h; sourceTree = "<group>"; };
+		7DD41A7D21C738C9007BC1D0 /* FacialMaskView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FacialMaskView.m; sourceTree = "<group>"; };
+		7DD41A7F21C7747B007BC1D0 /* FacePostionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FacePostionView.h; sourceTree = "<group>"; };
+		7DD41A8021C7747B007BC1D0 /* FacePostionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FacePostionView.m; sourceTree = "<group>"; };
+		7DFE0B2121D0B8C4006582CE /* UserInfoListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserInfoListView.h; sourceTree = "<group>"; };
+		7DFE0B2221D0B8C4006582CE /* UserInfoListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserInfoListView.m; sourceTree = "<group>"; };
+		7DFE0B2421D0BB5B006582CE /* CircularCollectionViewLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircularCollectionViewLayout.h; sourceTree = "<group>"; };
+		7DFE0B2521D0BB5B006582CE /* CircularCollectionViewLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircularCollectionViewLayout.m; sourceTree = "<group>"; };
+		7DFE0B2721D0FFDE006582CE /* PageCardFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageCardFlowLayout.h; sourceTree = "<group>"; };
+		7DFE0B2821D0FFDF006582CE /* PageCardFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageCardFlowLayout.m; sourceTree = "<group>"; };
 		859FB31A0F870D24A2EBF127 /* Pods-FaceComparisonUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FaceComparisonUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-FaceComparisonUITests/Pods-FaceComparisonUITests.release.xcconfig"; sourceTree = "<group>"; };
 		860E75FA21A6986300FE834B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		860E75FE21A6B88A00FE834B /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
@@ -212,6 +245,22 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		7D206A1E21C9E0ED00B631F6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7D3798F721D4C4ED009C80DD /* ExcelManager */ = {
+			isa = PBXGroup;
+			children = (
+				7D3798F821D4C508009C80DD /* ExcelManager.h */,
+				7D3798F921D4C508009C80DD /* ExcelManager.m */,
+			);
+			path = ExcelManager;
+			sourceTree = "<group>";
+		};
 		860E75FC21A6B84F00FE834B /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,6 +345,10 @@
 				86F92EAD21A4005300AB3B61 /* UINavigationController+Base.m */,
 				7D06194421B8F861009167DA /* CALayer+XibBase.h */,
 				7D06194521B8F861009167DA /* CALayer+XibBase.m */,
+				7D206A1F21C9E15B00B631F6 /* FacePostTool.h */,
+				7D206A2021C9E15B00B631F6 /* FacePostTool.mm */,
+				7D206A2221C9F0F900B631F6 /* Quaterniond.h */,
+				7D206A2321C9F0F900B631F6 /* Quaterniond.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -325,7 +378,10 @@
 		86916262219A6CF900CB4359 /* FaceComparison */ = {
 			isa = PBXGroup;
 			children = (
+				7D206A2721CA1DDC00B631F6 /* 1.png */,
+				7D206A2521CA1B6300B631F6 /* headPose.jpg */,
 				8643D717219C319700F6BD11 /* HFJKMacro.h */,
+				7D3798F721D4C4ED009C80DD /* ExcelManager */,
 				86FB2394219D4F2F0082835D /* Module */,
 				869162A6219A726900CB4359 /* Library */,
 				86AAFA5B219ADB0D00FE4999 /* DataBase */,
@@ -387,6 +443,15 @@
 				8643D70E219C11CF00F6BD11 /* MaskView.m */,
 				8643D714219C294D00F6BD11 /* UserInfoView.h */,
 				8643D715219C294D00F6BD11 /* UserInfoView.m */,
+				7D3394FF21D1CF26007CF124 /* UserInfoCollectionViewCell.h */,
+				7D33950021D1CF26007CF124 /* UserInfoCollectionViewCell.m */,
+				7D33950121D1CF26007CF124 /* UserInfoCollectionViewCell.xib */,
+				7DFE0B2121D0B8C4006582CE /* UserInfoListView.h */,
+				7DFE0B2221D0B8C4006582CE /* UserInfoListView.m */,
+				7DFE0B2721D0FFDE006582CE /* PageCardFlowLayout.h */,
+				7DFE0B2821D0FFDF006582CE /* PageCardFlowLayout.m */,
+				7DFE0B2421D0BB5B006582CE /* CircularCollectionViewLayout.h */,
+				7DFE0B2521D0BB5B006582CE /* CircularCollectionViewLayout.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -444,8 +509,8 @@
 		86D3434821A0104F0055CC5D /* FacialCapturing */ = {
 			isa = PBXGroup;
 			children = (
+				7D206A1E21C9E0ED00B631F6 /* Model */,
 				86D3434C21A010E50055CC5D /* Controller */,
-				86D3434A21A010E50055CC5D /* Model */,
 				86D3434B21A010E50055CC5D /* View */,
 				86D3434921A010E50055CC5D /* ViewModel */,
 			);
@@ -459,16 +524,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		86D3434A21A010E50055CC5D /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		86D3434B21A010E50055CC5D /* View */ = {
 			isa = PBXGroup;
 			children = (
+				7DD41A7C21C738C9007BC1D0 /* FacialMaskView.h */,
+				7DD41A7D21C738C9007BC1D0 /* FacialMaskView.m */,
+				7DD41A7F21C7747B007BC1D0 /* FacePostionView.h */,
+				7DD41A8021C7747B007BC1D0 /* FacePostionView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -708,13 +770,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7D206A2821CA1DDC00B631F6 /* 1.png in Resources */,
 				862C8532219D709100ADA8B8 /* UserInfoTableViewCell.xib in Resources */,
 				86FE594321A2B3C0006D90D2 /* HistoryDetailTableViewCell.xib in Resources */,
 				86FB2393219D30300082835D /* UserInfoInputViewController.xib in Resources */,
 				86916270219A6CFB00CB4359 /* LaunchScreen.storyboard in Resources */,
 				86FE593E21A2B276006D90D2 /* HistoryListTableViewController.xib in Resources */,
 				860E760521A6B88A00FE834B /* WSDatePickerView.xib in Resources */,
+				7D206A2621CA1B6400B631F6 /* headPose.jpg in Resources */,
 				86F92EA821A3E2A400AB3B61 /* DateSelectedTableViewCell.xib in Resources */,
+				7D33950321D1CF26007CF124 /* UserInfoCollectionViewCell.xib in Resources */,
 				8691626D219A6CFB00CB4359 /* Assets.xcassets in Resources */,
 				86D34344219FFA4F0055CC5D /* UserListViewController.xib in Resources */,
 			);
@@ -845,18 +910,24 @@
 				7D06194621B8F861009167DA /* CALayer+XibBase.m in Sources */,
 				86FE592C21A28590006D90D2 /* HistoryModel.m in Sources */,
 				86F92EAE21A4005300AB3B61 /* UINavigationController+Base.m in Sources */,
+				7D206A2121C9E15B00B631F6 /* FacePostTool.mm in Sources */,
 				86D3434F21A010FD0055CC5D /* FacialCapturingViewController.mm in Sources */,
 				86916273219A6CFB00CB4359 /* main.m in Sources */,
 				86F92EA721A3E2A400AB3B61 /* DateSelectedTableViewCell.m in Sources */,
 				86D34342219FF8850055CC5D /* UserListTableView.m in Sources */,
 				86AAFA61219AEF3F00FE4999 /* UserModel.m in Sources */,
+				7D3798FA21D4C508009C80DD /* ExcelManager.m in Sources */,
+				7DD41A7E21C738C9007BC1D0 /* FacialMaskView.m in Sources */,
 				86D3434721A00C8F0055CC5D /* DetectionAlertView.m in Sources */,
 				8643D70F219C11CF00F6BD11 /* MaskView.m in Sources */,
 				86AAFA5E219ADB2C00FE4999 /* DataBaseManager.m in Sources */,
 				8643D716219C294D00F6BD11 /* UserInfoView.m in Sources */,
 				86FE593421A2AB02006D90D2 /* SideView.m in Sources */,
 				862C8531219D709100ADA8B8 /* UserInfoTableViewCell.m in Sources */,
+				7DFE0B2321D0B8C4006582CE /* UserInfoListView.m in Sources */,
+				7D206A2421C9F0F900B631F6 /* Quaterniond.m in Sources */,
 				86F92EAB21A3FD7E00AB3B61 /* HexColor.m in Sources */,
+				7DFE0B2921D0FFDF006582CE /* PageCardFlowLayout.m in Sources */,
 				86916265219A6CF900CB4359 /* AppDelegate.m in Sources */,
 				860E760821A6B88A00FE834B /* UIView+Extension.m in Sources */,
 				86FE594221A2B3C0006D90D2 /* HistoryDetailTableViewCell.m in Sources */,
@@ -865,8 +936,11 @@
 				8643D713219C19F100F6BD11 /* FaceDetectionBaseTools.m in Sources */,
 				869162A4219A6F8C00CB4359 /* CameraSession.m in Sources */,
 				860E760721A6B88A00FE834B /* NSDate+Extension.m in Sources */,
+				7DFE0B2621D0BB5B006582CE /* CircularCollectionViewLayout.m in Sources */,
 				860E760621A6B88A00FE834B /* WSDatePickerView.m in Sources */,
 				862C852C219D706D00ADA8B8 /* UserListViewController.m in Sources */,
+				7D33950221D1CF26007CF124 /* UserInfoCollectionViewCell.m in Sources */,
+				7DD41A8121C7747B007BC1D0 /* FacePostionView.m in Sources */,
 				86FB2392219D30300082835D /* UserInfoInputViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1046,7 +1120,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = www.hfsmrz.com.FaceComparison;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = HFJK_Dev_All;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1073,7 +1147,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = www.hfsmrz.com.FaceComparison;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = HFJK_Dev_All;
-				TARGETED_DEVICE_FAMILY = 2;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

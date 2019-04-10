@@ -40,4 +40,6 @@
 - (BOOL)deleteHistoryTable:(NSString *)tableName;
 - (NSArray *)historyList;
 - (NSArray <HistotyModel *>*)allHistoryWithTableName:(NSString *)tableName;
+- (void)open:(FMDatabase *)db;
+- (void)close:(FMDatabase *)db;
 @end

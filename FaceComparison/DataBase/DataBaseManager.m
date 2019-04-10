@@ -16,6 +16,7 @@
 
 @property (nonatomic,copy) NSArray *works;
 @property (nonatomic,copy) NSArray *features;
+@property (strong,nonatomic) dispatch_queue_t dbQueue;
 
 @end
 
@@ -40,6 +41,7 @@
         NSString *historyPath = [docuPath stringByAppendingPathComponent:@"history"];
         
         _user = [FMDatabase databaseWithPath:dbPath];
+        _dbQueue = dispatch_queue_create("dbQueue",DISPATCH_QUEUE_SERIAL);
         [_user open];
         if (![_user open]) {
             NSLog(@"db open fail");
@@ -98,7 +100,7 @@
     //获取当前时间并格式化 2018-01
     NSString *currentTime = [[self getCurrentTimes] substringToIndex:7];
     _currentHistoryTable = [NSString stringWithFormat:@"history_%@",currentTime];
-    NSString *sql = [NSString stringWithFormat:@"create table if not exists %@ ('ID' INTEGER PRIMARY KEY AUTOINCREMENT,'name' TEXT NOT NULL, 'workNum' TEXT NOT NULL ,'typeOfWork' TEXT NOT NULL,'score' TEXT NOT NULL,'facePostion' TEXT NOT NULL,'clockTime' DATETIME UNIQUE NOT NULL)",_currentHistoryTable];
+    NSString *sql = [NSString stringWithFormat:@"create table if not exists %@ ('ID' INTEGER PRIMARY KEY AUTOINCREMENT,'name' TEXT NOT NULL, 'workNum' TEXT NOT NULL ,'typeOfWork' TEXT NOT NULL,'score' TEXT NOT NULL,'facePostion' TEXT NOT NULL,'clockTime' DATETIME NOT NULL)",_currentHistoryTable];
     //5.执行更新操作 此处database直接操作，不考虑多线程问题，多线程问题，用FMDatabaseQueue 每次数据库操作之后都会返回bool数值，YES，表示success，NO，表示fail,可以通过 @see lastError @see lastErrorCode @see lastErrorMessage
     BOOL result = [_history executeUpdate:sql];
     [_history close];
@@ -180,9 +182,11 @@
 {
     __weak typeof(self) weakSelf = self;
     __block NSString *blockTableName = tableName;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
+    dispatch_async(_dbQueue, ^{
         
-        
+        if (![db open]) {
+            return ;
+        }
         if (db == weakSelf.history) {
             NSString *currentTime = [[self getCurrentTimes] substringToIndex:7];
             NSString *currentHistoryTable = [NSString stringWithFormat:@"history_%@",currentTime];
@@ -196,9 +200,7 @@
             }
         }
         
-        if (![db open]) {
-            NSLog(@"db open fail");
-        }
+       
         unsigned int count;
         // 获取属性列表
         NSMutableString *property = [NSMutableString string];
@@ -224,14 +226,26 @@
         NSString *cStr = [countStr substringToIndex:([countStr length]-1)];
         //    NSString *arguments = [userModel allPropertyValue];
         BOOL ret = [db executeUpdate:[NSString stringWithFormat:@"insert into '%@'(%@) values(%@)",blockTableName,pStr,cStr] withArgumentsInArray:arguments];
-        [db close];
+        if (![db close]) {
+            NSLog(@"db close fail");
+        }
         if (finish) {
             finish(ret);
         }
     });
 }
-
-
+- (void)open:(FMDatabase *)db
+{
+    if (![db open]) {
+        NSLog(@"db open fail");
+    }
+}
+- (void)close:(FMDatabase *)db
+{
+    if (![db close]) {
+        NSLog(@"db clos fail");
+    }
+}
 //-(NSInteger)getAllDataCount{
 //    NSString *sql = [NSString stringWithFormat:@"select count(*) count from workTable"];
 //    NSMutableArray *arr = [[NSMutableArray alloc] init];

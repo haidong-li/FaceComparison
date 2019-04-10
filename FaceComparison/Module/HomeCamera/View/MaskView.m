@@ -48,7 +48,6 @@
     [[UIColor clearColor] set];
     
     //矩形，并填弃颜色
-    CGContextSetLineWidth(context, 2.0);//线的宽度
     UIColor *aColor = [HexColor colorWithHexString:@"#438AFF"];
    
     
@@ -56,6 +55,8 @@
 
     CGFloat scale =  self.frame.size.width / self.picSize.width ;
     for (NSValue *value in _faces) {
+        CGContextSetLineWidth(context, 2.0);//线的宽度
+
         CGRect r = [value CGRectValue];
         
         CGFloat space = 0.0;
@@ -66,6 +67,7 @@
         CGFloat height = r.size.height;
         CGFloat x = r.origin.x;
         CGFloat y = r.origin.y;
+        //防抖
         CGFloat pThreshold = 2;
         CGFloat sThreshold = 20;
         if (self.lastRect.size.width && self.lastRect.size.height && ((self.lastRect.size.width * self.lastRect.size.height) > 50)) {
@@ -99,8 +101,8 @@
         
         CGContextDrawPath(context, kCGPathFillStroke);//绘画路径
 //        self.layer.cornerRadius = 7;
-        CGFloat cornerW = 50;
-        CGFloat lineW = face.size.width / 8;
+        CGFloat cornerW = face.size.width / 8;
+        CGFloat lineW = 6;
         CGFloat lineSpace = lineW / 2;
         //left top
         CGContextMoveToPoint(context, face.origin.x - lineSpace, face.origin.y+cornerW - lineSpace);

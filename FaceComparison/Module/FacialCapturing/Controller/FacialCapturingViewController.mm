@@ -20,8 +20,8 @@
 #import <opencv2/imgproc/imgproc_c.h>
 #import <opencv2/imgcodecs/ios.h>
 #import "HexColor.h"
-#import "MaskView.h"
-
+#import "FacialMaskView.h"
+#import "FacePostionView.h"
 @interface FacialCapturingViewController ()<CameraOutput>
 @property (nonatomic,strong) CameraSession *session;
 @property (nonatomic,strong) AVSampleBufferDisplayLayer *cameraLayer;
@@ -61,14 +61,18 @@
 @property (nonatomic,copy) NSArray *buttons;
 
 @property (nonatomic,assign) BOOL start;
-@property (nonatomic,strong) MaskView *maskView;
+@property (nonatomic,strong) FacialMaskView *maskView;
+@property (nonatomic,strong) FacePostionView *facePostionView;
 @property (nonatomic,strong) UILabel *notic;
+
+@property (strong,nonatomic) UILabel *titleLabel;
 @end
 
 @implementation FacialCapturingViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    HFJKWeakSelf
     // Do any additional setup after loading the view.
     self.cameraLayer.frame = self.view.bounds;
     [self.view.layer addSublayer:self.cameraLayer];
@@ -78,130 +82,125 @@
     _mt = [[HDFaceDetection alloc] init];
     _sim = [[HDFaceComparison alloc] init];
     
-    [_session run];
     
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [weakSelf.session run];
+    });
+//
+//    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(100, 50, HFJKSCREEN_WIDTH - 200, 50)];
+//    [self.view addSubview:_titleLabel];
+    
+    [self.view addSubview:self.maskView];
+    [self.view addSubview:self.facePostionView];
     self.fd_prefersNavigationBarHidden = YES;
     
     UIButton *p0Button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [p0Button setTitle:@"正面" forState:UIControlStateNormal];
-    p0Button.layer.cornerRadius = 5;
-    p0Button.layer.borderColor = ThemeColor.CGColor;
-    p0Button.layer.borderWidth = 2;
-    p0Button.titleLabel.font = [UIFont systemFontOfSize:30 weight:10];
+//    [p0Button setTitle:@"正面" forState:UIControlStateNormal];
+    [p0Button setBackgroundImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+    [p0Button setBackgroundImage:[UIImage imageNamed:@"green"] forState:UIControlStateSelected];
+   
     [self.view addSubview:p0Button];
     
     UIButton *p1Button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [p1Button setTitle:@"左上" forState:UIControlStateNormal];
-    p1Button.layer.cornerRadius = 5;
-    p1Button.layer.borderColor = ThemeColor.CGColor;
-    p1Button.layer.borderWidth = 2;
-    p1Button.titleLabel.font = [UIFont systemFontOfSize:30 weight:10];
+    [p1Button setBackgroundImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+    [p1Button setBackgroundImage:[UIImage imageNamed:@"green"] forState:UIControlStateSelected];
+   
     [self.view addSubview:p1Button];
     
     UIButton *p2Button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [p2Button setTitle:@"正上" forState:UIControlStateNormal];
-    p2Button.layer.cornerRadius = 5;
-    p2Button.layer.borderColor = ThemeColor.CGColor;
-    p2Button.layer.borderWidth = 2;
-    p2Button.titleLabel.font = [UIFont systemFontOfSize:30 weight:10];
+    [p2Button setBackgroundImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+    [p2Button setBackgroundImage:[UIImage imageNamed:@"green"] forState:UIControlStateSelected];
+   
     [self.view addSubview:p2Button];
     
     UIButton *p3Button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [p3Button setTitle:@"右上" forState:UIControlStateNormal];
-    p3Button.layer.cornerRadius = 5;
-    p3Button.layer.borderColor = ThemeColor.CGColor;
-    p3Button.layer.borderWidth = 2;
-    p3Button.titleLabel.font = [UIFont systemFontOfSize:30 weight:10];
+    [p3Button setBackgroundImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+    [p3Button setBackgroundImage:[UIImage imageNamed:@"green"] forState:UIControlStateSelected];
+
     [self.view addSubview:p3Button];
     
     UIButton *p4Button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [p4Button setTitle:@"正右" forState:UIControlStateNormal];
-    p4Button.layer.cornerRadius = 5;
-    p4Button.layer.borderColor = ThemeColor.CGColor;
-    p4Button.layer.borderWidth = 2;
-    p4Button.titleLabel.font = [UIFont systemFontOfSize:30 weight:10];
+    [p4Button setBackgroundImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+    [p4Button setBackgroundImage:[UIImage imageNamed:@"green"] forState:UIControlStateSelected];
+  
     [self.view addSubview:p4Button];
     
     UIButton *p5Button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [p5Button setTitle:@"右下" forState:UIControlStateNormal];
-    p5Button.layer.cornerRadius = 5;
-    p5Button.layer.borderColor = ThemeColor.CGColor;
-    p5Button.layer.borderWidth = 2;
-    p5Button.titleLabel.font = [UIFont systemFontOfSize:30 weight:10];
+    [p5Button setBackgroundImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+    [p5Button setBackgroundImage:[UIImage imageNamed:@"green"] forState:UIControlStateSelected];
+
     [self.view addSubview:p5Button];
     
     UIButton *p6Button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [p6Button setTitle:@"正下" forState:UIControlStateNormal];
-    p6Button.layer.cornerRadius = 5;
-    p6Button.layer.borderColor = ThemeColor.CGColor;
-    p6Button.layer.borderWidth = 2;
-    p6Button.titleLabel.font = [UIFont systemFontOfSize:30 weight:10];
+    [p6Button setBackgroundImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+    [p6Button setBackgroundImage:[UIImage imageNamed:@"green"] forState:UIControlStateSelected];
+   
     [self.view addSubview:p6Button];
     
     UIButton *p7Button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [p7Button setTitle:@"左下" forState:UIControlStateNormal];
-    p7Button.layer.cornerRadius = 5;
-    p7Button.layer.borderColor = ThemeColor.CGColor;
-    p7Button.layer.borderWidth = 2;
-    p7Button.titleLabel.font = [UIFont systemFontOfSize:30 weight:10];
+    [p7Button setBackgroundImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+    [p7Button setBackgroundImage:[UIImage imageNamed:@"green"] forState:UIControlStateSelected];
+ 
     [self.view addSubview:p7Button];
     
     UIButton *p8Button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [p8Button setTitle:@"正左" forState:UIControlStateNormal];
-    p8Button.layer.cornerRadius = 5;
-    p8Button.layer.borderColor = ThemeColor.CGColor;
-    p8Button.layer.borderWidth = 2;
-    p8Button.titleLabel.font = [UIFont systemFontOfSize:30 weight:10];
+    [p8Button setBackgroundImage:[UIImage imageNamed:@"red"] forState:UIControlStateNormal];
+    [p8Button setBackgroundImage:[UIImage imageNamed:@"green"] forState:UIControlStateSelected];
+
     [self.view addSubview:p8Button];
     
+    
+    CGFloat top = (HFJKSCREEN_HEIGHT / 3) + 100 - 250;
+    CGFloat leftSpace = (HFJKSCREEN_WIDTH - 500) / 2;
+    
     [p0Button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.center.equalTo(self.view);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.centerX.equalTo(self.view);
+        make.centerY.equalTo(self.view.mas_top).offset(top + 250);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     
     [p1Button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(p0Button.mas_top).offset(-100);
-        make.right.equalTo(p0Button.mas_left).offset(-100);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.left.equalTo(self.view).offset(leftSpace + 30);
+        make.top.equalTo(self.view).offset(top + 60);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     [p2Button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(p1Button);
-        make.centerX.equalTo(p0Button);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.bottom.equalTo(self.view.mas_top).equalTo(@(top - 5));
+        make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     [p3Button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(p1Button);
-        make.left.equalTo(p0Button.mas_right).offset(100);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.right.equalTo(self.view).offset(-leftSpace - 30);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     [p4Button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(p3Button);
-        make.centerY.equalTo(p0Button);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.centerY.equalTo(self.view.mas_top).offset(top + 250);
+        make.right.equalTo(@(-leftSpace + 35));
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     [p5Button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(p4Button);
-        make.top.equalTo(p4Button.mas_bottom).offset(100);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.centerX.equalTo(p3Button);
+        make.top.equalTo(@(top + 500 - 90));
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     [p6Button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(p5Button);
+        make.top.equalTo(@(top + 500 + 5));
         make.centerX.equalTo(p0Button);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     [p7Button mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(p1Button);
-        make.centerY.equalTo(p6Button);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.centerY.equalTo(p5Button);
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     [p8Button mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(p0Button);
-        make.centerX.equalTo(p1Button);
-        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.centerY.equalTo(p4Button);
+        make.left.equalTo(@(leftSpace - 35));
+        make.size.mas_equalTo(CGSizeMake(30, 30));
     }];
     
    
-    [self.view addSubview:self.maskView];
 
     UIButton *start = [UIButton buttonWithType:UIButtonTypeCustom];
     [start setTitle:@"开始采集" forState:UIControlStateNormal];
@@ -267,41 +266,32 @@
             UIButton *button =  weakSelf.buttons[i];
             
             if (i == 0 &&  weakSelf.p0Image) {
-                [button setImage: weakSelf.p0Image forState:UIControlStateNormal];
-                [button setTitle:nil forState:UIControlStateNormal];
+                button.selected = YES;
             }
             
             if (i == 1 &&  weakSelf.p1Image) {
-                [button setImage: weakSelf.p1Image forState:UIControlStateNormal];
-                [button setTitle:nil forState:UIControlStateNormal];
+                button.selected = YES;
             }
             if (i == 2 &&  weakSelf.p2Image) {
-                [button setImage: weakSelf.p2Image forState:UIControlStateNormal];
-                [button setTitle:nil forState:UIControlStateNormal];
+                button.selected = YES;
             }
             if (i == 3 &&  weakSelf.p3Image) {
-                [button setImage: weakSelf.p3Image forState:UIControlStateNormal];
-                [button setTitle:nil forState:UIControlStateNormal];
+                button.selected = YES;
             }
             if (i == 4 &&  weakSelf.p4Image) {
-                [button setImage: weakSelf.p4Image forState:UIControlStateNormal];
-                [button setTitle:nil forState:UIControlStateNormal];
+                button.selected = YES;
             }
             if (i == 5 &&  weakSelf.p5Image) {
-                [button setImage: weakSelf.p5Image forState:UIControlStateNormal];
-                [button setTitle:nil forState:UIControlStateNormal];
+                button.selected = YES;
             }
             if (i == 6 &&  weakSelf.p6Image) {
-                [button setImage: weakSelf.p6Image forState:UIControlStateNormal];
-                [button setTitle:nil forState:UIControlStateNormal];
+                button.selected = YES;
             }
             if (i == 7 &&  weakSelf.p7Image) {
-                [button setImage: weakSelf.p7Image forState:UIControlStateNormal];
-                [button setTitle:nil forState:UIControlStateNormal];
+                button.selected = YES;
             }
             if (i == 8 &&  weakSelf.p8Image) {
-                [button setImage: weakSelf.p8Image forState:UIControlStateNormal];
-                [button setTitle:nil forState:UIControlStateNormal];
+                button.selected = YES;
             }
         }
         
@@ -361,9 +351,12 @@
         
         CGFloat leftRight = left / right;
         CGFloat upDown = top / bottom;
-        
-        NSLog(@"%.4f   %.4f",leftRight,upDown);
-
+        CGFloat leftRightDifference = left - right;
+        NSLog(@"%.4f   %.4f - %.4f",leftRight,upDown,leftRightDifference);
+        _facePostionView.left = left;
+        _facePostionView.right = right;
+        _facePostionView.top = top;
+        _facePostionView.bottom = bottom;
         //按比例计算 最好
         if ((leftRight < 0.5 && leftRight > 0.1) && upDown < 0.5 && upDown > 0.2 && !self.p1Image) {
             //左上
@@ -403,7 +396,7 @@
         }
 
         //左右眼 距离 差不多的时候
-        if (leftRight >= 0.95 && leftRight <= 1.1 && upDown> 1.95 && !self.p6Image) {
+        if (leftRight >= 0.95 && leftRight <= 1.1  && upDown> 1.75 && !self.p6Image) {
             //正下
             self.p6 = [_sim getFaceFeaturesWithOriginalPic:image landmarks:mtcnnResult.firstObject];
             self.p6Image = MatToUIImage(face);
@@ -426,7 +419,7 @@
             [self reloadButtons];
         }
         
-        if ((leftRight >= 0.95) && (leftRight <= 1.1) && upDown >= 0.95 && upDown <= 1.1 && !self.p0Image) {
+        if (leftRight > 1.0 && leftRight < 1.3 && upDown >= 0.95 && upDown <= 1.1 && !self.p0Image) {
             //正脸
             self.p0 = [_sim getFaceFeaturesWithOriginalPic:image landmarks:mtcnnResult.firstObject];
             self.p0Image = MatToUIImage(face);
@@ -437,8 +430,49 @@
 
     }
     
+    
     self.isBusy = NO;
 }
+
+
+//- (BOOL)checkFaceInDetectionRect:(CGRect)re imageSize:(CGSize)size
+//{
+//    CGFloat top = (HFJKSCREEN_HEIGHT / 3) + 100;
+//    CGFloat radius = 250;
+//    CGFloat height = size.height;
+//    CGFloat width = size.width;
+//    CGFloat picHeight = self.cameraLayer.bounds.size.height;
+//    //px 人脸的面积
+//    CGFloat rY = re.origin.y + re.size.height;
+//    CGFloat rX = re.origin.x + re.size.width;
+//    //px 人脸bottom Y 的值
+//    CGFloat maxY = (((top + (radius * 2)) / picHeight) * height);
+//    //px 人脸top Y 的值
+//    CGFloat minY = (top / picHeight) * height;
+//    //px 人脸left X 的值
+//    CGFloat minX = (((size.width - (radius * 2)) / 2 / size.width) * width);
+//    //px 人脸right X 的值
+//    CGFloat maxX = width - minX;
+//
+//
+//    //pt 人脸中心的坐标
+//    CGFloat centerX = (re.origin.x + (re.size.width / 2)) / (width / size.width);
+//    CGFloat conterY = (re.origin.y + (re.size.height / 2)) / (height / size.height) + 160;
+//    //扫描区域中心的坐标
+//    CGFloat scanCenterX = HFJKSCREEN_WIDTH / 2;
+//    CGFloat scanCenterY = 150 + (radius);
+//
+//
+//    CGFloat centerDistance = sqrt(((scanCenterX - centerX) * (scanCenterX - centerX)) + ((scanCenterY - conterY) * (scanCenterY - conterY)));
+//    BOOL overCenter = centerDistance  < 70;
+//
+//    BOOL overW = rX < maxX;
+//    BOOL overH = rY < maxY;
+//    BOOL overX = re.origin.x > minX;
+//    BOOL overY = re.origin.y > minY;
+//
+//    return (overW && overH && overX && overY && overCenter);
+//}
 - (CGFloat)distance:(CGPoint)pointA b:(CGPoint)pointB
 {
     return sqrt(pow((pointA.x - pointB.x), 2) + pow((pointA.y - pointB.y), 2));
@@ -483,7 +517,10 @@
     if (self.cameraLayer.status == AVQueuedSampleBufferRenderingStatusFailed) {
         [self.cameraLayer flush];
     }
-    
+    HFJKWeakSelf
+    dispatch_async(dispatch_get_main_queue(), ^{
+        weakSelf.notic.text = @"请缓慢的旋转面部";
+    });
     CVImageBufferRef buffer;
     buffer = CMSampleBufferGetImageBuffer(sampleBuffer);
     size_t width, height;
@@ -509,6 +546,10 @@
     CGRect re = [maxRect CGRectValue];
     
     BOOL overPostion = [self checkFaceInDetectionRect:[maxRect CGRectValue] imageSize:CGSizeMake(width, height)];
+    UIColor *bgColor =  overPostion ? [UIColor redColor] : [HexColor colorWithHexString:@"#438AFF"];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        weakSelf.maskView.backgroundColor = bgColor;
+    });
     BOOL moveFast = NO;
     BOOL faceTooSmall = NO;
     
@@ -534,6 +575,14 @@
         CMSampleBufferRef sbufCopyOut;
         CMSampleBufferCreateCopy(allocator,sampleBuffer,&sbufCopyOut);
         [self performSelectorInBackground:@selector(grepFacesForSampleBuffer:) withObject:CFBridgingRelease(sbufCopyOut)];
+    }else
+    {
+        if (overPostion) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                weakSelf.notic.text = @"把脸放在检测范围内";
+            });
+        }
+        
     }
     
     [self.cameraLayer enqueueSampleBuffer:sampleBuffer];
@@ -542,12 +591,14 @@
 //检测脸部是否在 检测的区域内 是否出了检测的区域
 - (BOOL)checkFaceInDetectionRect:(CGRect)re imageSize:(CGSize)size
 {
-    CGFloat threshold = 10;
     
-    CGFloat x1 = re.origin.x;
-    CGFloat y1 = re.origin.y;
-    CGFloat x2 = re.origin.x + re.size.width;
-    CGFloat y2 = re.origin.y + re.size.height;
+    CGFloat top = (HFJKSCREEN_HEIGHT / 3.0) + 100 - 250;
+    CGFloat radius = 250;
+    
+    CGFloat x1 = re.origin.x / (size.width / HFJKSCREEN_WIDTH);
+    CGFloat y1 = re.origin.y / (size.width / HFJKSCREEN_WIDTH);
+    CGFloat x2 = (re.origin.x + re.size.width) / (size.width / HFJKSCREEN_WIDTH);
+    CGFloat y2 = (re.origin.y + re.size.height) / (size.width / HFJKSCREEN_WIDTH);
     
     CGFloat width = size.width;
     CGFloat height = size.height;
@@ -557,16 +608,16 @@
     BOOL overX2 = NO;
     BOOL overY2 = NO;
     
-    if (x1 < threshold) {
+    if (x1 < ((HFJKSCREEN_WIDTH - (radius * 2.0)) / 2.0)) {
         overX1 = YES;
     }
-    if (y1 < threshold) {
+    if (y1 < top) {
         overY1 = YES;
     }
-    if ((width - x2) < threshold) {
+    if ((HFJKSCREEN_WIDTH - x2) < ((HFJKSCREEN_WIDTH - (radius * 2.0)) / 2.0)) {
         overX2 = YES;
     }
-    if ((height - y2) < threshold) {
+    if ((HFJKSCREEN_HEIGHT - y2) < (HFJKSCREEN_HEIGHT - top - (radius * 2.0))) {
         overY2 = YES;
     }
     return (overX1 || overX2 || overY1 || overY2);
@@ -590,26 +641,28 @@
 {
     if (!_cameraLayer) {
         _cameraLayer = [[AVSampleBufferDisplayLayer alloc] init];
+        _cameraLayer.videoGravity = AVLayerVideoGravityResizeAspect;
     }
     return _cameraLayer;
     
 }
 
-- (MaskView *)maskView
+- (FacialMaskView *)maskView
 {
     if (!_maskView) {
-        _maskView = [[MaskView alloc] initWithFrame:self.view.bounds];
-        _maskView.tap = ^{
-//            UserInfoView *infoView = [[UserInfoView alloc] initWithFrame:CGRectMake(0, HFJKSCREEN_HEIGHT, HFJKSCREEN_WIDTH, 200)];
-//            UserModel *user = [[UserModel alloc] init];
-//            user.workNum = @"123";
-//            user.name = @"李海冬";
-//            user.typeOfWork = @"ios开发";
-//            [infoView loadUserInfo:user];
-//            [infoView show];
-        };
+        _maskView = [[FacialMaskView alloc] initWithFrame:self.view.bounds];
+       
     }
     return _maskView;
+}
+
+- (FacePostionView *)facePostionView
+{
+    if (!_facePostionView) {
+        _facePostionView = [[FacePostionView alloc] initWithFrame:self.view.bounds];
+        _facePostionView.backgroundColor = [UIColor clearColor];
+    }
+    return _facePostionView;
 }
 
 @end

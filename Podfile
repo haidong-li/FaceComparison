@@ -15,6 +15,7 @@ target 'FaceComparison' do
     pod 'DZNEmptyDataSet'
     pod 'MarqueeLabel'
     pod 'YYKit'
+    pod 'libxlsxwriter', '~> 0.8.4'
   # Pods for FaceComparison
 
   target 'FaceComparisonTests' do

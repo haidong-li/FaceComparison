@@ -29,9 +29,14 @@ NSLog(@"method is %@ Linked in %f ms", NSStringFromSelector(_cmd),linkTime *1000
 #import <opencv2/opencv.hpp>
 #import <opencv2/imgcodecs/ios.h>
 #import "HistoryModel.h"
+#import "FacePostTool.h"
+#import "UserInfoListView.h"
+#import "CircularCollectionViewLayout.h"
+#import "PageCardFlowLayout.h"
+#import "ExcelManager.h"
 static NSInteger const faceMoveSpeed = 3;
-
-@interface HomeCameraViewController ()<CameraOutput>
+#define MaxSections 100
+@interface HomeCameraViewController ()<CameraOutput,UICollectionViewDelegate,UICollectionViewDataSource,UIDocumentInteractionControllerDelegate,PageCardFlowLayoutDelegate>
 @property (nonatomic,strong) CameraSession *session;
 @property (nonatomic,strong) AVSampleBufferDisplayLayer *cameraLayer;
 @property (nonatomic,strong) HDFaceDetection *mt;
@@ -55,6 +60,7 @@ static NSInteger const faceMoveSpeed = 3;
 @property (nonatomic,copy) NSArray *feature8;
 
 @property (nonatomic,strong) UserInfoView *userInfoView;
+@property (strong,nonatomic) UserInfoListView *userInfoListView;
 @property (nonatomic,assign) NSInteger checkedOutWorkNum;
 @property (nonatomic,assign) BOOL sameUser;
 
@@ -62,7 +68,14 @@ static NSInteger const faceMoveSpeed = 3;
 //
 @property (nonatomic,assign) float rectCenterX;
 @property (nonatomic,assign) float rectCenterY;
+@property (strong,nonatomic) UIImageView *head;
 
+@property (nonatomic,strong) NSArray *dataSourceArray;
+@property (nonatomic,strong) PageCardFlowLayout *layout;
+
+@property (nonatomic,assign) NSInteger indexPath;
+@property (nonatomic,assign) BOOL showUserInfo;
+@property (nonatomic, strong) UIDocumentInteractionController *documentInteractionController;
 
 @end
 
@@ -72,7 +85,12 @@ static NSInteger const faceMoveSpeed = 3;
     [super viewDidLoad];
     [self getData];
     
-//    self.view.backgroundColor = [UIColor redColor];
+//    UIImage *head = [UIImage imageNamed:@"headPose.jpg"];
+//    head = [FacePostTool facePostion:nil image:head];
+    
+    
+    
+    self.view.backgroundColor = [UIColor redColor];
 
     self.cameraLayer.frame = self.view.bounds;
     [self.view.layer addSublayer:self.cameraLayer];
@@ -81,18 +99,25 @@ static NSInteger const faceMoveSpeed = 3;
 
     _mt = [[HDFaceDetection alloc] init];
     _sim = [[HDFaceComparison alloc] init];
- 
-   
+
+
     [self.view addSubview:self.maskView];
-    
-    
+
+
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setImage:[UIImage imageNamed:@"manager"] forState:UIControlStateNormal];
     button.frame = CGRectMake(HFJKSCREEN_WIDTH - 100, 50, 50, 50);
     [button addTarget:self action:@selector(managerButtonClick:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:button];
      [_session run];
-
+    UIImageView *show = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 200, 200)];
+    //    show.image = head;
+    _head = show;
+    [self.view addSubview:show];
+    
+    [self.view addSubview:self.userInfoListView];
+//    self.dataSourceArray = @[@(1),@(2),@(3),@(4),@(5),@(6),@(7)];
+//    [self.view addSubview:self.collectionView];
 }
 
 
@@ -101,6 +126,18 @@ static NSInteger const faceMoveSpeed = 3;
     [super viewWillAppear:animated];
     [self getData];
     [_session run];
+    
+    
+    NSString *path = [ExcelManager createExcelFileWithName:@"lihaidong"];
+    NSURL *url = [NSURL fileURLWithPath:path];
+    _documentInteractionController = [UIDocumentInteractionController
+                                      interactionControllerWithURL:url];
+    [_documentInteractionController setDelegate:self];
+    
+    [_documentInteractionController presentOpenInMenuFromRect:CGRectZero inView:self.view animated:YES];
+    
+//    self.indexPath = 0;
+//    [self scrollToItemAtIndexPath:0 andSection:(MaxSections/2 - 1) withAnimated:NO];
 }
 
 
@@ -133,6 +170,8 @@ static NSInteger const faceMoveSpeed = 3;
 
 - (void)captureOutput:(AVCaptureOutput *)output didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer faces:(NSArray<NSValue *> *)faces
 {
+    
+    HFJKWeakSelf
     if (self.cameraLayer.status == AVQueuedSampleBufferRenderingStatusFailed) {
         [self.cameraLayer flush];
     }
@@ -148,6 +187,7 @@ static NSInteger const faceMoveSpeed = 3;
     //画图
     if (_bounds.count) {
        
+//        [[DataBaseManager shareInstance] open:[DataBaseManager shareInstance].history];
         for (NSInteger i = 0; i < _bounds.count; i++) {
             NSValue *faceRect = _bounds[i];
             float tmpArea = [faceRect CGRectValue].size.width * [faceRect CGRectValue].size.height;
@@ -159,10 +199,11 @@ static NSInteger const faceMoveSpeed = 3;
         
         dispatch_async(dispatch_get_main_queue(), ^{
             self.maskView.picSize = CGSizeMake(width, height);
-            self.maskView.faces = @[maxRect];
+            self.maskView.faces = weakSelf.bounds;
         });
     }else{
         [self clearMask];
+//        [[DataBaseManager shareInstance] close:[DataBaseManager shareInstance].history];
     }
     
     CGRect re = [maxRect CGRectValue];
@@ -207,7 +248,6 @@ static NSInteger const faceMoveSpeed = 3;
 - (void)grepFacesForSampleBuffer:(CMSampleBufferRef)sampleBuffer {
     UIImage  *image = [FaceDetectionBaseTools imageFromPixelBuffer:sampleBuffer];
 
-    __weak typeof(self) wealSelf = self;
     HFJKWeakSelf
     if (_bounds.count) {
         CVImageBufferRef buffer;
@@ -217,111 +257,131 @@ static NSInteger const faceMoveSpeed = 3;
         height = CVPixelBufferGetHeight(buffer);
         
         //找出最大人脸 index 0 关键点。index 1 人脸框
-        NSArray *mtcnnResult = [wealSelf.mt detectMaxFace:image];
-        CGRect faceRect = [mtcnnResult.lastObject CGRectValue];
+//        NSArray *mtcnnResult = [wealSelf.mt detectMaxFace:image];
+        NSArray *mtcnnResult = [weakSelf.mt detectFace:image];
        
-        NSArray *whichFeatures = nil;
-        NSString *facePostion = @"";
-        NSInteger postion = [self postion:mtcnnResult.firstObject];
         
-        switch (postion) {
-            case 0:
-                facePostion = @"front";
-                whichFeatures = self.feature0;
-                break;
-            case 1:
-                facePostion = @"left-top";
-                whichFeatures = self.feature1;
-                break;
-            case 2:
-                facePostion = @"top";
-                whichFeatures = self.feature2;
-                break;
-            case 3:
-                facePostion = @"right-top";
-                whichFeatures = self.feature3;
-                break;
-            case 4:
-                facePostion = @"right";
-                whichFeatures = self.feature4;
-                break;
-            case 5:
-                facePostion = @"right-down";
-                whichFeatures = self.feature5;
-                break;
-            case 6:
-                facePostion = @"down";
-                whichFeatures = self.feature6;
-                break;
-            case 7:
-                facePostion = @"left-down";
-                whichFeatures = self.feature7;
-                break;
-            case 8:
-                facePostion = @"left";
-                whichFeatures = self.feature8;
-                break;
-            default:
-                break;
+        
+        for (NSInteger i = 0; i < mtcnnResult.count; i++) {
+            NSArray *faceInfo = mtcnnResult[i];
+            NSArray *landmarks = faceInfo.firstObject;
+            CGRect faceRect = [faceInfo.lastObject CGRectValue];
+            NSInteger postion = [self postion:faceInfo.firstObject];
+
+            dispatch_async(dispatch_get_global_queue(0, DISPATCH_QUEUE_PRIORITY_DEFAULT), ^{
+                [weakSelf faceComparison:postion faceRect:faceRect image:image landmarks:landmarks];
+            });
         }
        
         
-        if (mtcnnResult.count == 2 && whichFeatures.count) {
-            NSArray *feature =  [_sim getFaceFeaturesWithOriginalPic:image landmarks:mtcnnResult.firstObject];
-            NSDictionary *simResult = [_sim findMostSimilarityFace:feature inDataSource:whichFeatures];
-            NSInteger index = [simResult[@"index"] integerValue];
-            CGFloat score = [simResult[@"score"] floatValue];
-            if (index > -1 && score > 80) {
-                UserModel *findResult = weakSelf.users[index];
-                NSInteger workNum = [findResult.workNum integerValue];
-               
-                if (weakSelf.userInfoView == nil) {
-                    
-                    HistoryModel *history = [[HistoryModel alloc] init];
-                    history.name = findResult.name;
-                    history.workNum = findResult.workNum;
-                    history.clockTime = [FaceDetectionBaseTools getCurrentTimes];
-                    history.typeOfWork = findResult.typeOfWork;
-                    history.facePostion = facePostion;
-                    history.score = [NSString stringWithFormat:@"%.2f",score];
-                    //存储图片
-                    cv::Mat src,face;
-                    UIImageToMat(image, src);
-                    face = src(cv::Rect(faceRect.origin.x,faceRect.origin.y,faceRect.size.width,faceRect.size.height));
-                    cv::resize(face, face, cv::Size(100,100));
-                    [[DataBaseManager shareInstance] insertModel:history toTable:[[DataBaseManager shareInstance] currentHistoryTable] db:[DataBaseManager shareInstance].history finish:^(BOOL ret) {
-                        if (ret) {
-                            
-                            [FaceDetectionBaseTools saveImage:MatToUIImage(face) name:history.clockTime path:[[[DataBaseManager shareInstance] historyImagePath] stringByAppendingPathComponent:[DataBaseManager shareInstance].currentHistoryTable]];
-                        }
-                    }]; //>? 插入数据库
-                    
-                    
-                    
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        weakSelf.userInfoView = [[UserInfoView alloc] initWithFrame:CGRectMake(20, HFJKSCREEN_HEIGHT, HFJKSCREEN_WIDTH - 40, 150)];
-                        [weakSelf.userInfoView loadUserInfo:findResult];
-                        weakSelf.userInfoView.faceScore = (NSInteger)score;
-                        [weakSelf.userInfoView show];
-                        weakSelf.userInfoView.finish = ^{
-                            weakSelf.userInfoView = nil;
-                        };
-                    });
-                    
-                }
-                
-                weakSelf.checkedOutWorkNum = workNum;
-            }else
-            {
-                
-//                NSLog(@"没有这个人 %ld",index);
-            }
-        }
-       
     }
     self.isBusy = NO;
 }
 
+
+- (void)faceComparison:(NSInteger)postion faceRect:(CGRect)faceRect image:(UIImage *)image landmarks:(NSArray *)landmarks
+{
+    HFJKWeakSelf
+    NSArray *whichFeatures = nil;
+    NSString *facePostion = @"";
+    switch (postion) {
+        case 0:
+            facePostion = @"front";
+            whichFeatures = self.feature0;
+            break;
+        case 1:
+            facePostion = @"left-top";
+            whichFeatures = self.feature1;
+            break;
+        case 2:
+            facePostion = @"top";
+            whichFeatures = self.feature2;
+            break;
+        case 3:
+            facePostion = @"right-top";
+            whichFeatures = self.feature3;
+            break;
+        case 4:
+            facePostion = @"right";
+            whichFeatures = self.feature4;
+            break;
+        case 5:
+            facePostion = @"right-down";
+            whichFeatures = self.feature5;
+            break;
+        case 6:
+            facePostion = @"down";
+            whichFeatures = self.feature6;
+            break;
+        case 7:
+            facePostion = @"left-down";
+            whichFeatures = self.feature7;
+            break;
+        case 8:
+            facePostion = @"left";
+            whichFeatures = self.feature8;
+            break;
+        default:
+            break;
+    }
+
+    
+    if (whichFeatures.count) {
+        NSArray *feature =  [_sim getFaceFeaturesWithOriginalPic:image landmarks:landmarks];
+        NSDictionary *simResult = [_sim findMostSimilarityFace:feature inDataSource:whichFeatures];
+        NSInteger index = [simResult[@"index"] integerValue];
+        CGFloat score = [simResult[@"score"] floatValue];
+        if (index > -1 && score > 80) {
+            UserModel *findResult = weakSelf.users[index];
+            NSInteger workNum = [findResult.workNum integerValue];
+            
+//            if (weakSelf.checkedOutWorkNum == [findResult.workNum integerValue]) {
+//                weakSelf.sameUser = YES;
+//            }else
+//            {
+//                weakSelf.sameUser = NO;
+//            }
+            
+            
+//            BOOL exist = [weakSelf.userInfoListView checkUserExist:findResult];
+//            if (exist) {
+//                return;
+//            }
+            
+            HistoryModel *history = [[HistoryModel alloc] init];
+            history.name = findResult.name;
+            history.workNum = findResult.workNum;
+            history.clockTime = [FaceDetectionBaseTools getCurrentTimes];
+            history.typeOfWork = findResult.typeOfWork;
+            history.facePostion = facePostion;
+            history.score = [NSString stringWithFormat:@"%.2f",score];
+            //存储图片
+            cv::Mat src,face;
+            UIImageToMat(image, src);
+            face = src(cv::Rect(faceRect.origin.x,faceRect.origin.y,faceRect.size.width,faceRect.size.height));
+            cv::resize(face, face, cv::Size(100,100));
+            [[DataBaseManager shareInstance] insertModel:history toTable:[[DataBaseManager shareInstance] currentHistoryTable] db:[DataBaseManager shareInstance].history finish:^(BOOL ret) {
+                if (ret) {
+                    
+                    [FaceDetectionBaseTools saveImage:MatToUIImage(face) name:history.clockTime path:[[[DataBaseManager shareInstance] historyImagePath] stringByAppendingPathComponent:[DataBaseManager shareInstance].currentHistoryTable]];
+                }
+            }]; //>? 插入数据库
+            
+            
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.userInfoListView insetUserInfo:history];
+            });
+            
+            weakSelf.checkedOutWorkNum = workNum;
+        }else
+        {
+            
+            //                NSLog(@"没有这个人 %ld",index);
+        }
+    }
+    
+}
 - (void)clearMask
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -511,18 +571,25 @@ static NSInteger const faceMoveSpeed = 3;
     return _maskView;
 }
 
-//- (void)setSameUser:(BOOL)sameUser
-//{
-//    HFJKWeakSelf
-//    if ((_sameUser == NO) && (sameUser == YES)) {
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            weakSelf.sameUser = NO;
-//            weakSelf.checkedOutWorkNum = -1;
-//        });
-//    }
-//
-//    _sameUser = sameUser;
-//}
+- (UserInfoListView *)userInfoListView
+{
+    if (!_userInfoListView) {
+        _userInfoListView = [[UserInfoListView alloc] initWithFrame:CGRectMake(0, HFJKSCREEN_HEIGHT - 300, HFJKSCREEN_WIDTH, 300)];
+        
+    }
+    return _userInfoListView;
+}
+- (void)setSameUser:(BOOL)sameUser
+{
+    HFJKWeakSelf
+    if ((_sameUser == NO) && (sameUser == YES)) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(4 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            weakSelf.sameUser = NO;
+            weakSelf.checkedOutWorkNum = -1;
+        });
+    }
 
+    _sameUser = sameUser;
+}
 
 @end

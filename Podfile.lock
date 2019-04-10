@@ -9,6 +9,7 @@ PODS:
   - FMDB/standard (2.7.2)
   - GPUImage (0.1.7)
   - IQKeyboardManager (6.0.6)
+  - libxlsxwriter (0.8.4)
   - MarqueeLabel (3.1.6):
     - MarqueeLabel/ObjC (= 3.1.6)
   - MarqueeLabel/ObjC (3.1.6)
@@ -26,6 +27,7 @@ DEPENDENCIES:
   - FDFullscreenPopGesture (~> 1.1)
   - FMDB (~> 2.7.2)
   - IQKeyboardManager (~> 6.0.4)
+  - libxlsxwriter (~> 0.8.4)
   - MarqueeLabel
   - Masonry (~> 1.1.0)
   - MBProgressHUD (~> 1.1.0)
@@ -41,6 +43,7 @@ SPEC REPOS:
     - FMDB
     - GPUImage
     - IQKeyboardManager
+    - libxlsxwriter
     - MarqueeLabel
     - Masonry
     - MBProgressHUD
@@ -55,12 +58,13 @@ SPEC CHECKSUMS:
   FMDB: 6198a90e7b6900cfc046e6bc0ef6ebb7be9236aa
   GPUImage: 733a5f0fab92df9de1c37ba9df520a833ccb406d
   IQKeyboardManager: 6b4ecd3e59cf55a26133d802d4678721d7f88499
+  libxlsxwriter: f768360e0809308e1b48150bd0601fa2dc9a8345
   MarqueeLabel: 0c41f08ef5773e29c0f71064a8fa788a2fd8b365
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   PGPickerView: 0b781b1d8fb153db5ef09ac3842941f29cbca8a4
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: f5af3c9f759ee03e3fd8ce951c3466241410b1ae
+PODFILE CHECKSUM: 95c74bb01f70fa14ebe9806b9d04536b6bd82007
 
 COCOAPODS: 1.5.3

@@ -40,8 +40,8 @@
             [self.session addInput:input];
         }
         
-        if ([self.session canSetSessionPreset:AVCaptureSessionPreset640x480]) {
-            _session.sessionPreset = AVCaptureSessionPreset640x480;
+        if ([self.session canSetSessionPreset:AVCaptureSessionPresetHigh]) {
+            _session.sessionPreset = AVCaptureSessionPresetHigh;
         }
         if ([self.session canAddOutput:output]) {
             [self.session addOutput:output];

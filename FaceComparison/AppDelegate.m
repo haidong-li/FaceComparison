@@ -17,6 +17,8 @@
 #import "FaceDetectionBaseTools.h"
 #import "HexColor.h"
 #import "HFJKMacro.h"
+#import "ExcelManager.h"
+
 @interface AppDelegate ()
 
 @end
@@ -25,6 +27,7 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    
     
     
     // IQKeyboard
@@ -37,7 +40,9 @@
     keyboardManager.shouldShowToolbarPlaceholder = YES; // 是否显示占位文字
     keyboardManager.placeholderFont = [UIFont boldSystemFontOfSize:17]; // 设置占位文字的字体
     keyboardManager.keyboardDistanceFromTextField = 10.0f; // 输入框距离键盘的距离
+    [keyboardManager setEnableAutoToolbar:NO];
     
+
     
     UIViewController *root = [[HomeCameraViewController alloc] init];
     UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:root];
@@ -56,7 +61,7 @@
     [[UINavigationBar appearance] setBackgroundImage:[FaceDetectionBaseTools newImageWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width, 64) color:ThemeColor] forBarMetrics:UIBarMetricsDefault];
     // Override point for customization after application launch.
 //   NSArray *his = [[DataBaseManager shareInstance] getPersonalFilteredClockTimeWithTableName:@"history_2019_06"];
-    NSLog(@"%@",[UIFont familyNames]);
+   
     return YES;
 }
 
