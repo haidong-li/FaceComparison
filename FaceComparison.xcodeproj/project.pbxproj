@@ -18,6 +18,7 @@
 		7D33950221D1CF26007CF124 /* UserInfoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D33950021D1CF26007CF124 /* UserInfoCollectionViewCell.m */; };
 		7D33950321D1CF26007CF124 /* UserInfoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 7D33950121D1CF26007CF124 /* UserInfoCollectionViewCell.xib */; };
 		7D3798FA21D4C508009C80DD /* ExcelManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D3798F921D4C508009C80DD /* ExcelManager.m */; };
+		7DACBBB3230FB78F00A16056 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DACBBB2230FB78F00A16056 /* opencv2.framework */; };
 		7DD41A7E21C738C9007BC1D0 /* FacialMaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD41A7D21C738C9007BC1D0 /* FacialMaskView.m */; };
 		7DD41A8121C7747B007BC1D0 /* FacePostionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DD41A8021C7747B007BC1D0 /* FacePostionView.m */; };
 		7DFE0B2321D0B8C4006582CE /* UserInfoListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7DFE0B2221D0B8C4006582CE /* UserInfoListView.m */; };
@@ -41,7 +42,6 @@
 		86916288219A6CFB00CB4359 /* FaceComparisonUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 86916287219A6CFB00CB4359 /* FaceComparisonUITests.m */; };
 		8691629C219A6E5B00CB4359 /* HomeCameraViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 8691629B219A6E5B00CB4359 /* HomeCameraViewController.mm */; };
 		869162A4219A6F8C00CB4359 /* CameraSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 869162A3219A6F8C00CB4359 /* CameraSession.m */; };
-		869162AA219A72C900CB4359 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 869162A7219A72C900CB4359 /* opencv2.framework */; };
 		869162AB219A72C900CB4359 /* ncnn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 869162A8219A72C900CB4359 /* ncnn.framework */; };
 		869162AC219A72C900CB4359 /* openmp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 869162A9219A72C900CB4359 /* openmp.framework */; };
 		869162B3219A7F7D00CB4359 /* Face.m in Sources */ = {isa = PBXBuildFile; fileRef = 869162B2219A7F7D00CB4359 /* Face.m */; };
@@ -107,6 +107,7 @@
 		7D33950121D1CF26007CF124 /* UserInfoCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserInfoCollectionViewCell.xib; sourceTree = "<group>"; };
 		7D3798F821D4C508009C80DD /* ExcelManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ExcelManager.h; sourceTree = "<group>"; };
 		7D3798F921D4C508009C80DD /* ExcelManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExcelManager.m; sourceTree = "<group>"; };
+		7DACBBB2230FB78F00A16056 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		7DD41A7C21C738C9007BC1D0 /* FacialMaskView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FacialMaskView.h; sourceTree = "<group>"; };
 		7DD41A7D21C738C9007BC1D0 /* FacialMaskView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FacialMaskView.m; sourceTree = "<group>"; };
 		7DD41A7F21C7747B007BC1D0 /* FacePostionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FacePostionView.h; sourceTree = "<group>"; };
@@ -156,7 +157,6 @@
 		869162A2219A6F8C00CB4359 /* CameraSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraSession.h; sourceTree = "<group>"; };
 		869162A3219A6F8C00CB4359 /* CameraSession.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraSession.m; sourceTree = "<group>"; };
 		869162A5219A6FAC00CB4359 /* CameraOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraOutput.h; sourceTree = "<group>"; };
-		869162A7219A72C900CB4359 /* opencv2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = opencv2.framework; sourceTree = "<group>"; };
 		869162A8219A72C900CB4359 /* ncnn.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ncnn.framework; sourceTree = "<group>"; };
 		869162A9219A72C900CB4359 /* openmp.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = openmp.framework; sourceTree = "<group>"; };
 		869162B1219A7F7D00CB4359 /* Face.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Face.h; sourceTree = "<group>"; };
@@ -207,8 +207,8 @@
 			files = (
 				7D06194321B8E1C1009167DA /* HDFaceDetection.framework in Frameworks */,
 				869162AC219A72C900CB4359 /* openmp.framework in Frameworks */,
-				869162AA219A72C900CB4359 /* opencv2.framework in Frameworks */,
 				869162AB219A72C900CB4359 /* ncnn.framework in Frameworks */,
+				7DACBBB3230FB78F00A16056 /* opencv2.framework in Frameworks */,
 				42B6468A46080D4012AB5FE6 /* libPods-FaceComparison.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -485,9 +485,9 @@
 		869162A6219A726900CB4359 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				7DACBBB2230FB78F00A16056 /* opencv2.framework */,
 				7D06194221B8E1C1009167DA /* HDFaceDetection.framework */,
 				869162A8219A72C900CB4359 /* ncnn.framework */,
-				869162A7219A72C900CB4359 /* opencv2.framework */,
 				869162A9219A72C900CB4359 /* openmp.framework */,
 			);
 			path = Library;
